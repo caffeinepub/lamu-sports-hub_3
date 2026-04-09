@@ -1,0 +1,186 @@
+type UserProfilePublic = 
+ record {
+   areaOfResidence: text;
+   displayName: text;
+   favouriteTeamId: opt TeamId;
+   followedPlayerIds: vec PlayerId;
+   followedTeamIds: vec TeamId;
+   teamAffiliation: text;
+ };
+type Timestamp = int;
+type TeamId = nat;
+type Team = 
+ record {
+   abbreviation: text;
+   draws: nat;
+   emoji: text;
+   goalsAgainst: nat;
+   goalsFor: nat;
+   id: TeamId;
+   losses: nat;
+   name: text;
+   wins: nat;
+ };
+type Standing = 
+ record {
+   draws: nat;
+   goalDiff: int;
+   goalsAgainst: nat;
+   goalsFor: nat;
+   losses: nat;
+   played: nat;
+   points: nat;
+   position: nat;
+   teamId: TeamId;
+   wins: nat;
+ };
+type RefereeStatus = 
+ variant {
+   active;
+   inactive;
+ };
+type RefereeId = nat;
+type Referee = 
+ record {
+   assignedMatchIds: vec MatchId;
+   id: RefereeId;
+   licenseNumber: text;
+   name: text;
+   phone: text;
+   status: RefereeStatus;
+ };
+type PlayerId = nat;
+type Player = 
+ record {
+   assists: nat;
+   goals: nat;
+   id: PlayerId;
+   name: text;
+   position: text;
+   teamId: TeamId;
+   yellowCards: nat;
+ };
+type OfficialId = nat;
+type Official = 
+ record {
+   area: text;
+   email: text;
+   id: OfficialId;
+   name: text;
+   phone: text;
+   role: text;
+ };
+type NewsId = nat;
+type NewsArticle = 
+ record {
+   category: text;
+   content: text;
+   date: text;
+   emoji: text;
+   excerpt: text;
+   id: NewsId;
+   title: text;
+ };
+type MatchStatus = 
+ variant {
+   finished;
+   live;
+   scheduled;
+ };
+type MatchId = nat;
+type Match = 
+ record {
+   awayScore: nat;
+   awayTeamId: TeamId;
+   homeScore: nat;
+   homeTeamId: TeamId;
+   id: MatchId;
+   joiners: vec principal;
+   matchDate: text;
+   matchTime: text;
+   status: MatchStatus;
+ };
+type ActivityItem = 
+ record {
+   actionType: ActionType;
+   actorName: text;
+   actorPrincipal: opt principal;
+   entityId: nat;
+   entityName: text;
+   id: ActivityId;
+   timestamp: Timestamp;
+ };
+type ActivityId = nat;
+type ActionType = 
+ variant {
+   follow_player;
+   follow_team;
+   goal;
+   join;
+   status_change;
+ };
+service : {
+  addMatch: (homeTeamId: nat, awayTeamId: nat, matchDate: text, matchTime:
+   text) -> (nat);
+  addNews: (title: text, excerpt: text, content: text, category: text, date:
+   text, emoji: text) -> (nat);
+  addOfficial: (name: text, role: text, phone: text, email: text, area:
+   text) -> (nat);
+  addPlayer: (name: text, teamId: nat, position: text, goals: nat, assists:
+   nat, yellowCards: nat) -> (nat);
+  addReferee: (name: text, licenseNumber: text, phone: text) -> (nat);
+  addTeam: (name: text, abbreviation: text, emoji: text) -> (nat);
+  assignRefereeToMatch: (refereeId: nat, matchId: nat) -> (bool);
+  deleteNews: (id: nat) -> (bool);
+  deleteOfficial: (id: nat) -> (bool);
+  deletePlayer: (id: nat) -> (bool);
+  deleteReferee: (id: nat) -> (bool);
+  deleteTeam: (id: nat) -> (bool);
+  dismissActivity: (activityId: nat) -> ();
+  followPlayer: (playerId: nat) -> ();
+  followTeam: (teamId: nat) -> ();
+  getActivities: () -> (vec ActivityItem) query;
+  getAllMatches: () -> (vec Match) query;
+  getAllNews: () -> (vec NewsArticle) query;
+  getAllOfficials: () -> (vec Official) query;
+  getAllPlayers: () -> (vec Player) query;
+  getAllReferees: () -> (vec Referee) query;
+  getAllTeams: () -> (vec Team) query;
+  getArticle: (id: nat) -> (opt NewsArticle) query;
+  getMatch: (id: nat) -> (opt Match) query;
+  getMatchesByTeam: (teamId: nat) -> (vec Match) query;
+  getOfficial: (id: nat) -> (opt Official) query;
+  getPlayer: (id: nat) -> (opt Player) query;
+  getPlayersByTeam: (teamId: nat) -> (vec Player) query;
+  getReferee: (id: nat) -> (opt Referee) query;
+  getStandings: () -> (vec Standing) query;
+  getTeam: (id: nat) -> (opt Team) query;
+  getUserDismissed: () -> (vec nat) query;
+  getUserProfile: () -> (UserProfilePublic) query;
+  hasJoinedMatch: (matchId: nat) -> (bool) query;
+  joinMatch: (matchId: nat) -> (variant {
+                                  err: text;
+                                  ok;
+                                });
+  scheduleMatch: (homeTeamId: nat, awayTeamId: nat, matchDate: text,
+   matchTime: text) -> (nat);
+  setFavouriteTeam: (teamId: nat) -> ();
+  unassignRefereeFromMatch: (refereeId: nat, matchId: nat) -> (bool);
+  unfollowPlayer: (playerId: nat) -> ();
+  unfollowTeam: (teamId: nat) -> ();
+  updateMatchScore: (id: nat, homeScore: nat, awayScore: nat) -> (bool);
+  updateMatchStatus: (id: nat, status: MatchStatus) -> (bool);
+  updateNews: (id: nat, title: text, excerpt: text, content: text, category:
+   text, date: text, emoji: text) -> (bool);
+  updateOfficial: (id: nat, name: text, role: text, phone: text, email: 
+   text, area: text) -> (bool);
+  updatePlayer: (id: nat, name: text, teamId: nat, position: text, goals:
+   nat, assists: nat, yellowCards: nat) -> (bool);
+  updateReferee: (id: nat, name: text, licenseNumber: text, status:
+   RefereeStatus, phone: text) -> (bool);
+  updateTeam: (id: nat, name: text, abbreviation: text, emoji: text, wins:
+   nat, draws: nat, losses: nat, goalsFor: nat, goalsAgainst: nat) -> (
+   bool);
+  updateUserProfile: (displayName: text, area: text, teamAffiliation:
+   text) -> ();
+}

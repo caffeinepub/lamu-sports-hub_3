@@ -1,0 +1,192 @@
+// Version: 1.0.0
+type ActionType__303413750 =
+  {#follow_player; #follow_team; #goal; #join; #status_change};
+type ActivityId__326478791 = Nat;
+type ActivityId__341948803 = ActivityId__326478791;
+type ActivityItem__769909501 =
+  {
+    actionType : ActionType__303413750;
+    actorName : Text;
+    actorPrincipal : ?Principal;
+    entityId : Nat;
+    entityName : Text;
+    id : ActivityId__341948803;
+    timestamp : Timestamp__515776233
+  };
+type Data__159895909<T> = {var count : Nat__490723111; elements : [var ?T]};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__667636161<T> =
+  {children : [var ?Node__92254746<T>]; data : Data__159895909<T>};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__520550824<T> = {data : Data__159895909<T>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type MatchId__1068241625 = MatchId__543136929;
+type MatchId__543136929 = Nat;
+type MatchId__940322495 = MatchId__543136929;
+type MatchStatus__427144453 = {#finished; #live; #scheduled};
+type Match__66421370 =
+  {
+    awayScore : Nat;
+    awayTeamId : TeamId__1045345379;
+    homeScore : Nat;
+    homeTeamId : TeamId__1045345379;
+    id : MatchId__940322495;
+    joiners : [Principal];
+    matchDate : Text;
+    matchTime : Text;
+    status : MatchStatus__427144453
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewsArticle__407119424 =
+  {
+    category : Text;
+    content : Text;
+    date : Text;
+    emoji : Text;
+    excerpt : Text;
+    id : NewsId__168210233;
+    title : Text
+  };
+type NewsId__168210233 = NewsId__369553967;
+type NewsId__369553967 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Node__92254746<T> =
+  {#internal : Internal__667636161<T>; #leaf : Leaf__520550824<T>};
+type OfficialId__105726263 = OfficialId__844502590;
+type OfficialId__844502590 = Nat;
+type Official__174713838 =
+  {
+    area : Text;
+    email : Text;
+    id : OfficialId__105726263;
+    name : Text;
+    phone : Text;
+    role : Text
+  };
+type PlayerId__52807076 = Nat;
+type PlayerId__650251530 = PlayerId__52807076;
+type PlayerId__730288214 = PlayerId__52807076;
+type Player__789849039 =
+  {
+    assists : Nat;
+    goals : Nat;
+    id : PlayerId__650251530;
+    name : Text;
+    position : Text;
+    teamId : TeamId__1003096340;
+    yellowCards : Nat
+  };
+type RefereeId__516893139 = Nat;
+type RefereeId__743238384 = RefereeId__516893139;
+type RefereeStatus__999180039 = {#active; #inactive};
+type Referee__376178105 =
+  {
+    assignedMatchIds : [MatchId__1068241625];
+    id : RefereeId__743238384;
+    licenseNumber : Text;
+    name : Text;
+    phone : Text;
+    status : RefereeStatus__999180039
+  };
+type Set__532252804<T> = Set__710576254<T>;
+type Set__710576254<T> =
+  {var root : Node__92254746<T>; var size : Nat__490723111};
+type TeamId__1003096340 = TeamId__900592005;
+type TeamId__1045345379 = TeamId__900592005;
+type TeamId__375216474 = TeamId__900592005;
+type TeamId__470870777 = TeamId__900592005;
+type TeamId__900592005 = Nat;
+type Team__944861453 =
+  {
+    abbreviation : Text;
+    draws : Nat;
+    emoji : Text;
+    goalsAgainst : Nat;
+    goalsFor : Nat;
+    id : TeamId__375216474;
+    losses : Nat;
+    name : Text;
+    wins : Nat
+  };
+type Timestamp__301639476 = Int;
+type Timestamp__515776233 = Timestamp__301639476;
+type UserProfile__277265826 =
+  {
+    areaOfResidence : Text;
+    displayName : Text;
+    favouriteTeamId : ?TeamId__470870777;
+    followedPlayerIds : [PlayerId__730288214];
+    followedTeamIds : [TeamId__470870777];
+    teamAffiliation : Text
+  };
+actor {
+  stable activities :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ActivityItem__769909501]];
+      var elementIndex : Nat__490723111
+    };
+  stable admins :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Principal]];
+      var elementIndex : Nat__490723111
+    };
+  stable articles :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?NewsArticle__407119424]];
+      var elementIndex : Nat__490723111
+    };
+  stable dismissedActivities :
+    {
+      var root : Node__46230540<Principal, Set__532252804<Nat>>;
+      var size : Nat__490723111
+    };
+  stable matches :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Match__66421370]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextActivityId : {var value : Nat};
+  stable nextMatchId : {var value : Nat};
+  stable nextNewsId : {var value : Nat};
+  stable nextOfficialId : {var value : Nat};
+  stable nextPlayerId : {var value : Nat};
+  stable nextRefereeId : {var value : Nat};
+  stable nextTeamId : {var value : Nat};
+  stable officials :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Official__174713838]];
+      var elementIndex : Nat__490723111
+    };
+  stable players :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Player__789849039]];
+      var elementIndex : Nat__490723111
+    };
+  stable referees :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Referee__376178105]];
+      var elementIndex : Nat__490723111
+    };
+  stable teams :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Team__944861453]];
+      var elementIndex : Nat__490723111
+    };
+  stable userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__277265826>;
+      var size : Nat__490723111
+    }
+};

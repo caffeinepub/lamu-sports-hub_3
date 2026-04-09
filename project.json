@@ -1,0 +1,29 @@
+{
+  "overview": "Lamu Sports Hub (LSH) is a mobile-first Progressive Web App for football in Lamu County, Kenya. It covers the FKF Lamu County League and Lamu Premier League with live scores, standings, team/player directories, news, fan engagement, and an admin panel. Built on the Internet Computer blockchain for secure, transparent data storage.",
+  "features": [
+    "Live match scores with auto-refresh every 30 seconds",
+    "League standings with gold/silver/bronze position badges",
+    "Team and player directories with stats",
+    "Share buttons on matches and news with picture and link",
+    "Favourite teams and follow players with backend sync",
+    "Functional notifications tab showing live fan activity",
+    "Settings page with theme, alerts, and personal details",
+    "About page with LSH history, officials, and contacts",
+    "Officials and referees directory",
+    "Latest news section on home screen",
+    "Registered players directory with admin approval",
+    "Internet Identity login for secure access",
+    "Admin panel for managing all league data on-chain"
+  ],
+  "category": "sports",
+  "tags": [
+    "football",
+    "kenya",
+    "lamu",
+    "sports",
+    "pwa",
+    "live-scores",
+    "league-management"
+  ],
+  "last_updated": "2026-04-09T10:11:36.216Z"
+}
